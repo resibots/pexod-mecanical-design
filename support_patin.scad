@@ -33,6 +33,10 @@ difference() {
     // holder for the "patin"
     rotate([180, 0, 0])
       cylinder(h=8.5, r=2.75);
+    translate([0, 0, -8.5])
+      rotate([180, 0, 0])
+        rotate_extrude()
+            polygon(points=[[0,0], [3.5,0], [2.50,3], [0,3]]);
 
   }
 
@@ -54,3 +58,4 @@ difference() {
         cylinder(h=18, r=1);
   }
 }
+
