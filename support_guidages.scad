@@ -2,7 +2,7 @@
 $fn=50;
 
 holder_thickness = 3;
-base_height = 5;
+base_height = 4;
 plain_bearing_length = 28;
 cap_depth = 5;
 
@@ -18,8 +18,8 @@ union() {
       }
 
       // pipe holders
-      translate([15, -26, 0]) cylinder(h=plain_bearing_length+cap_depth+3, r=11.25);
-      mirror([1, 0, 0]) translate([15, -26, 0]) cylinder(h=plain_bearing_length+cap_depth+3, r=11.25);
+      translate([15, -26, 0]) cylinder(h=plain_bearing_length+cap_depth+2, r=11.25);
+      mirror([1, 0, 0]) translate([15, -26, 0]) cylinder(h=plain_bearing_length+cap_depth+2, r=11.25);
     }
 
     // holes in the pipe holders
@@ -53,4 +53,17 @@ union() {
           }
     }
   }
+
+  // reinforcement for the pipe holders
+  translate([15+1, -15, base_height-0.25])
+    rotate([0, -90, 0])
+      linear_extrude(2)
+        polygon([[0, 0], [0, 15], [plain_bearing_length+cap_depth+2-base_height, 0]]);
+  mirror([1, 0, 0])
+  translate([15+1, -15, base_height-0.25])
+    rotate([0, -90, 0])
+      linear_extrude(2)
+        polygon([[0, 0], [0, 15], [plain_bearing_length+cap_depth+2-base_height, 0]]);
 }
+
+//translate([0, 20, 0])
