@@ -46,13 +46,13 @@ difference() {
       cylinder(h=30, r=3.2/2, center=true);
 
   for(x_offset=[-15, 15]) {
-    // holes in the pipe holders
+    // holes in the pipes
     //translate([x_offset, 0, -1])
     //  cylinder(h=20, r=4);
     translate([x_offset, 0, 2])
       cylinder(h=20, r=6);
 
-    // holes to fix the holding pipes
+    // holes to fix the pipes
     translate([x_offset, -9, 14])
       rotate([-90, 0, 0])
         cylinder(h=18, r=1);
