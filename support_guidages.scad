@@ -58,12 +58,12 @@ union() {
   translate([15+1, -15, base_height-0.25])
     rotate([0, -90, 0])
       linear_extrude(2)
-        polygon([[0, 0], [0, 15], [plain_bearing_length+cap_depth+2-base_height, 0]]);
+        polygon([[0, 0], [0, 14], [plain_bearing_length+cap_depth+2-base_height, 0]]);
   mirror([1, 0, 0])
   translate([15+1, -15, base_height-0.25])
     rotate([0, -90, 0])
       linear_extrude(2)
-        polygon([[0, 0], [0, 15], [plain_bearing_length+cap_depth+2-base_height, 0]]);
+        polygon([[0, 0], [0, 14], [plain_bearing_length+cap_depth+2-base_height, 0]]);
 }
 
 //translate([0, 20, 0])
