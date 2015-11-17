@@ -1,4 +1,4 @@
-# pexod-mecanical-design
+# pexod-mechanical-design
 
 This repository hosts the [openSCAD](http://www.openscad.org/) files for the springed-leg of the Pexod hexapod.
 
