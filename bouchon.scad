@@ -1,34 +1,42 @@
+use <modules.scad>
+
 // increase number of faces on rounded faces
 $fn=50;
 
-difference() {
-  union() {
-    difference() {
-      hull() {
-        translate([-22, -13, 0]) cube([44, 26, 2]);
+bearing_caps() {
+  difference() {
+      base();
+      mounting_holes();
+  }
+}
 
-        translate([15, -26, 0]) cylinder(h=2, r=11.25);
-        mirror([1, 0, 0]) translate([15, -26, 0]) cylinder(h=2, r=11.25);
-      }
+//////////
+// Modules
+//////////
 
+module base() {
+  hull() {
+    translate([-22, -13, 0]) cube([44, 26, 2]);
 
-      // four mounting holes
-      translate([7.77815, 7.77815, -1]) cylinder(h=5, r=1.25);
-      translate([7.77815, -7.77815, -1]) cylinder(h=5, r=1.25);
-      translate([-7.77815, 7.77815, -1]) cylinder(h=5, r=1.25);
-      translate([-7.77815, -7.77815, -1]) cylinder(h=5, r=1.25);
-      // a fith mounting hole between the two pipe holders
-      translate([0, -26-11.25+3.78, -1]) cylinder(h=10, r=1.25);
+    translate([15, -26, 0]) cylinder(h=2, r=11.25);
+    mirror([1, 0, 0]) translate([15, -26, 0]) cylinder(h=2, r=11.25);
+  }
+}
+
+module bearing_caps() {
+  // caps over the pipe holders
+  difference () {
+    union() {
+      translate([15, -26, 1]) cylinder(h=6, r=9.5);
+      mirror([1, 0, 0]) translate([15, -26, 1]) cylinder(h=6, r=9.5);
+      children();
     }
 
-    // caps over the pipe holders
-    translate([15, -26, 1]) cylinder(h=6, r=9.5);
-    mirror([1, 0, 0]) translate([15, -26, 1]) cylinder(h=6, r=9.5);
-  }
-
-  translate([15, -26, -1])
-    cylinder(h=9, r=7);
-  mirror([1, 0, 0])
+    // Holes in the cap to let the pipes go through.
     translate([15, -26, -1])
       cylinder(h=9, r=7);
+    mirror([1, 0, 0])
+      translate([15, -26, -1])
+        cylinder(h=9, r=7);
+  }
 }

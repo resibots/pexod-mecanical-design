@@ -1,3 +1,5 @@
+use <modules.scad>
+
 // increase number of faces on rounded faces
 $fn=50;
 
@@ -7,39 +9,65 @@ plain_bearing_length = 28;
 cap_depth = 5;
 
 union() {
-  // pierced base
+  bearing_holders(plain_bearing_length, cap_depth)
+    base(base_height);
+
+  spring_mounting(holder_thickness, base_height);
+}
+
+//////////
+// Modules
+//////////
+
+// Build the flat base
+module base(base_height) {
   difference() {
-    union() {
-      hull() {
-        translate([-22, -13, 0]) cube([44, 26, base_height]);
+    hull() {
+      translate([-22, -13, 0]) cube([44, 26, base_height]);
 
-        translate([15, -26, 0]) cylinder(h=base_height, r=11.25);
-        mirror([1, 0, 0]) translate([15, -26, 0]) cylinder(h=base_height, r=11.25);
-      }
-
-      // pipe holders
-      translate([15, -26, 0]) cylinder(h=plain_bearing_length+cap_depth+2, r=11.25);
-      mirror([1, 0, 0]) translate([15, -26, 0]) cylinder(h=plain_bearing_length+cap_depth+2, r=11.25);
+      translate([15, -26, 0]) cylinder(h=base_height, r=11.25);
+      mirror([1, 0, 0]) translate([15, -26, 0]) cylinder(h=base_height, r=11.25);
     }
 
-    // holes in the pipe holders
+    mounting_holes();
+  }
+}
+
+// This module adds two hollow cylinders where the bearing will be placed. Since
+// the holes in the cylinders have to go through the base, this module has to be
+// applied to the complete construction
+module bearing_holders(plain_bearing_length, cap_depth) {
+  difference () {
+    // the two cylinders
+    union() {
+      translate([15, -26, 0]) cylinder(h=plain_bearing_length+cap_depth+2, r=11.25);
+      mirror([1, 0, 0]) translate([15, -26, 0]) cylinder(h=plain_bearing_length+cap_depth+2, r=11.25);
+
+      // reinforcement
+      translate([15+1, -15, base_height-0.25])
+        rotate([0, -90, 0])
+          linear_extrude(2)
+            polygon([[0, 0], [0, 14], [plain_bearing_length+cap_depth+2-base_height, 0]]);
+      mirror([1, 0, 0])
+      translate([15+1, -15, base_height-0.25])
+        rotate([0, -90, 0])
+          linear_extrude(2)
+            polygon([[0, 0], [0, 14], [plain_bearing_length+cap_depth+2-base_height, 0]]);
+
+      children();
+    }
+    // holes in the bearing mounting, also going through the base
     translate([15, -26, -10]) cylinder(h=plain_bearing_length+cap_depth+10, r=9.55);
     translate([15, -26, -10]) cylinder(h=plain_bearing_length+20, r=7);
     mirror([1, 0, 0]) {
       translate([15, -26, -10]) cylinder(h=plain_bearing_length+cap_depth+10, r=9.55);
-      translate([15, -26, 30]) cylinder(h=plain_bearing_length+20, r=7);
+      translate([15, -26, -10]) cylinder(h=plain_bearing_length+20, r=7);
     }
-
-    // four mounting holes
-    translate([7.77815, 7.77815, -1]) cylinder(h=10, r=1.25);
-    translate([7.77815, -7.77815, -1]) cylinder(h=10, r=1.25);
-    translate([-7.77815, 7.77815, -1]) cylinder(h=10, r=1.25);
-    translate([-7.77815, -7.77815, -1]) cylinder(h=10, r=1.25);
-    // a fith mounting hole between the two pipe holders
-    translate([0, -26-11.25+3.78, -1]) cylinder(h=10, r=1.25);
   }
+}
 
-  // fixture for the spring
+// Build a mounting for the spring attached to the foot
+module spring_mounting(holder_thickness, base_height) {
   for (x_offset = [-4-holder_thickness/2, 4+holder_thickness/2]) {
     union(){
       translate([x_offset-holder_thickness/2, 0, 5+base_height])
@@ -55,17 +83,6 @@ union() {
           }
     }
   }
-
-  // reinforcement for the pipe holders
-  translate([15+1, -15, base_height-0.25])
-    rotate([0, -90, 0])
-      linear_extrude(2)
-        polygon([[0, 0], [0, 14], [plain_bearing_length+cap_depth+2-base_height, 0]]);
-  mirror([1, 0, 0])
-  translate([15+1, -15, base_height-0.25])
-    rotate([0, -90, 0])
-      linear_extrude(2)
-        polygon([[0, 0], [0, 14], [plain_bearing_length+cap_depth+2-base_height, 0]]);
 }
 
-//translate([0, 20, 0])
+//translate([0, -40, 0])
