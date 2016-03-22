@@ -16,7 +16,8 @@ union() {
   bearing_holders(plain_bearing_length, cap_depth)
     base(base_height);
 
-  spring_mounting(holder_thickness, base_height);
+  translate([0, 26, 0])
+    spring_mounting(holder_thickness, base_height);
 }
 
 
@@ -30,13 +31,14 @@ union() {
 module base(base_height) {
   difference() {
     hull() {
-      translate([-22, -13, 0]) cube([44, 26, base_height]);
+      translate([-22, 13, 0]) cube([44, 26, base_height]);
 
-      translate([15, -26, 0]) cylinder(h=base_height, r=11.25);
-      mirror([1, 0, 0]) translate([15, -26, 0]) cylinder(h=base_height, r=11.25);
+      translate([15, 0, 0]) cylinder(h=base_height, r=11.25);
+      mirror([1, 0, 0]) translate([15, 0, 0]) cylinder(h=base_height, r=11.25);
     }
 
-    mounting_holes();
+    translate([0, 26, 0])
+      mounting_holes();
   }
 }
 
@@ -47,16 +49,16 @@ module bearing_holders(plain_bearing_length, cap_depth) {
   difference () {
     // the two cylinders
     union() {
-      translate([15, -26, 0]) cylinder(h=plain_bearing_length+cap_depth+2, r=11.25);
-      mirror([1, 0, 0]) translate([15, -26, 0]) cylinder(h=plain_bearing_length+cap_depth+2, r=11.25);
+      translate([15, 0, 0]) cylinder(h=plain_bearing_length+cap_depth+2, r=11.25);
+      mirror([1, 0, 0]) translate([15, 0, 0]) cylinder(h=plain_bearing_length+cap_depth+2, r=11.25);
 
       // reinforcement
-      translate([15+1, -15, base_height-0.25])
+      translate([15+1, 11, base_height-0.25])
         rotate([0, -90, 0])
           linear_extrude(2)
             polygon([[0, 0], [0, 14], [plain_bearing_length+cap_depth+2-base_height, 0]]);
       mirror([1, 0, 0])
-      translate([15+1, -15, base_height-0.25])
+      translate([15+1, 11, base_height-0.25])
         rotate([0, -90, 0])
           linear_extrude(2)
             polygon([[0, 0], [0, 14], [plain_bearing_length+cap_depth+2-base_height, 0]]);
@@ -64,11 +66,11 @@ module bearing_holders(plain_bearing_length, cap_depth) {
       children();
     }
     // holes in the bearing mounting, also going through the base
-    translate([15, -26, -10]) cylinder(h=plain_bearing_length+cap_depth+10, r=9.55);
-    translate([15, -26, -10]) cylinder(h=plain_bearing_length+20, r=7);
+    translate([15, 0, -10]) cylinder(h=plain_bearing_length+cap_depth+10, r=9.55);
+    translate([15, 0, -10]) cylinder(h=plain_bearing_length+20, r=7);
     mirror([1, 0, 0]) {
-      translate([15, -26, -10]) cylinder(h=plain_bearing_length+cap_depth+10, r=9.55);
-      translate([15, -26, -10]) cylinder(h=plain_bearing_length+20, r=7);
+      translate([15, 0, -10]) cylinder(h=plain_bearing_length+cap_depth+10, r=9.55);
+      translate([15, 0, -10]) cylinder(h=plain_bearing_length+20, r=7);
     }
   }
 }
