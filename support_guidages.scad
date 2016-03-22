@@ -7,6 +7,10 @@ holder_thickness = 3;
 base_height = 4;
 plain_bearing_length = 28;
 cap_depth = 5;
+// Attachment to the actuator
+branch_thickness = 2.5;
+branch_length = 32;
+actuator_margin = 0;
 
 union() {
   bearing_holders(plain_bearing_length, cap_depth)
@@ -14,6 +18,9 @@ union() {
 
   spring_mounting(holder_thickness, base_height);
 }
+
+
+/*actuator_attachment(branch_thickness, branch_length, actuator_margin);*/
 
 //////////
 // Modules
@@ -84,5 +91,3 @@ module spring_mounting(holder_thickness, base_height) {
     }
   }
 }
-
-//translate([0, -40, 0])
