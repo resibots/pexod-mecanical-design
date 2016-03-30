@@ -1,7 +1,8 @@
 include <modules.scad>
 use <utils.scad>
 
-foot_end();
+optoforce_plate(2, "cone");
+/*foot_end();*/
 
 /*rotate([0, 180, -90])
   optoforce();*/
@@ -13,7 +14,7 @@ foot_end();
 module foot_end() {
   wall_thickness = 4;
   base_thickness = 2;
-  optoforce_interface="basic";
+  optoforce_interface="cone";
 
   pipe_holders();
 
@@ -61,13 +62,16 @@ module pipe_holders(wall_thickness = 4, base_thickness = 2) {
 // - "pins", adding three pins to enter the screw holes in the sensor, in order
 //   to keep it in place
 // - "wall", one thin wall around the disk to help center the sensor
+// - "cone", a conic shaped wall to make the design resilient to 3D printing inacuracy
 //
 // @param height how high the disk is going to be (excluding the optional extras)
 // @param extra see the above description for the proposed extras (defaults to none)
 module optoforce_plate(height, extra="none") {
+  cone_base = 10.8;
+  cone_shift = 1;
   difference() {
     union() {
-      cylinder(h=height, d=24);
+      cylinder(h=height, r=cone_base+0.5+cone_shift);
 
       if (extra == "pins") {
         r_distribution = 9.5;
@@ -82,6 +86,15 @@ module optoforce_plate(height, extra="none") {
           rotate_extrude()
             translate([11.1, 0, 0])
               square([0.9, 1]);
+      } else if (extra == "cone") {
+        rotate([180, 0, 0])
+          rotate_extrude()
+            polygon([
+              [cone_base, 0],
+              [cone_base+cone_shift, 1],
+              [cone_base+0.5+cone_shift, 1],
+              [cone_base+0.5+cone_shift, 0],
+              ]);
       }
     }
 
