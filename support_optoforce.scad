@@ -101,9 +101,15 @@ module optoforce_plate(height, extra="none") {
     // Holes to attach the sensor
     r_distribution = 9.5;
     holes_depth = 6;
+    oblong = 0.5;
     for (angle=[90, 270]) {
-      translate([r_distribution*cos(angle), r_distribution*sin(angle), -1])
-        cylinder(h=holes_depth, d=2);
+      rotate([0, 0, angle])
+        translate([r_distribution-oblong/2, 0, -1])
+          hull() {
+            cylinder(h=holes_depth, d=2);
+            translate([oblong, 0, 0])
+            cylinder(h=holes_depth, d=2);
+          }
     }
   }
 }
