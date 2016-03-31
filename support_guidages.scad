@@ -12,7 +12,7 @@ module support_guidages() {
     union() {
       bearing_holders(plain_bearing_length, cap_depth)
         union() {
-          base(wall_thickness, cap_depth);
+          base(wall_thickness, cap_depth, true);
 
           dynamixel_frames();
         }
@@ -27,9 +27,11 @@ module support_guidages() {
 }
 
 // Build the flat base
-module base(wall_thickness, cap_depth) {
-  translate([-15, -11.25, 0])
-    cube([30, 2*11.25, wall_thickness]);
+module base(wall_thickness, cap_depth, hollow=false) {
+  if (!hollow) {
+    translate([-15, -11.25, 0])
+      cube([30, 2*11.25, wall_thickness]);
+  }
 
   translate([-15, -11.25, 0])
     cube([30, wall_thickness, plain_bearing_length + cap_depth + 2]);
