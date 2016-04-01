@@ -1,4 +1,4 @@
-$fn=100;
+$fn=10;
 
 holder_thickness = 3;
 wall_thickness = 4;
@@ -76,4 +76,47 @@ module optoforce() {
         translate([r_distribution*cos(angle), r_distribution*sin(angle), -1])
           cylinder(h=3, d=2);
       }
-      }  }
+  }
+}
+
+/** Build one half of a cable holder for the Optoforce sensor.
+
+    This device is intended to be paired with a copy of itself, with the opening
+    facing the opposite direction. The distance between the two halves has to be
+    at least one diameter of the cable.
+
+    @param thickness
+    @param radius radius of the circular hollow space
+    @param y_shift how much the circle (which radius is the former parameter) is
+      shifted downwards
+**/
+module half_cable_holder(thickness=2, radius=2, y_shift=0.5) {
+  x_shift = sqrt(pow(radius, 2) - pow(y_shift, 2));
+
+  linear_extrude(thickness)
+    difference() {
+      // basic shape
+      square([9, 6]);
+
+      // Opening
+      translate([4.5-x_shift, 0-1])
+        square([6+x_shift+1, 3+1]);
+
+      // Circular hole
+      translate([3+1.5, 3])
+        intersection() {
+          translate([0, -y_shift])
+            circle(radius);
+          translate([-radius, 0])
+            square([2*radius, 2*radius]);
+        }
+    }
+}
+
+module cable_holder() {
+  translate([-4.5, 0, 2])
+    half_cable_holder();
+  translate([9-4.5, 0, -2])
+    rotate([0, 180, 0])
+      half_cable_holder();
+}
