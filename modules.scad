@@ -1,9 +1,4 @@
-$fn=10;
-
-holder_thickness = 3;
-wall_thickness = 4;
-plain_bearing_length = 28;
-cap_depth = 5;
+use <utils.scad>
 
 // Builds a module to attach to a dynamixel actuator
 // @param branch_thickness thickness of the part
@@ -22,7 +17,7 @@ module dynamixel_frame(branch_thickness, length, margin = 0) {
     translate([width/2-(8+margin)/2, length, -1])
       cube([8+margin, 8, branch_thickness+2]);
 
-    // round cornerd
+    // rounded corner
     rounding_radius = 2;
     translate([width, length+2, branch_thickness/2])
       custom_corner_rounder(rounding_radius, branch_thickness+2, rounding_radius+5, rounding_radius+5);

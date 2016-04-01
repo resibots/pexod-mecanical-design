@@ -1,5 +1,7 @@
-include <modules.scad>
+include <settings.scad>
+use <modules.scad>
 use <utils.scad>
+
 use <support_guidages.scad>
 use <bouchon.scad>
 use <support_optoforce.scad>

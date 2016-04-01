@@ -1,4 +1,5 @@
-include <modules.scad>
+include <settings.scad>
+use <modules.scad>
 use <utils.scad>
 
 support_guidages();
@@ -14,7 +15,7 @@ module support_guidages() {
         union() {
           base(wall_thickness, cap_depth, true);
 
-          dynamixel_frames();
+          dynamixel_frames(branch_length = 27);
         }
 
       translate([0, -11.25-4, 4+24])
@@ -22,7 +23,7 @@ module support_guidages() {
         spring_mounting(holder_thickness, base_length = 2, extra_length=6);
     }
 
-    nut_holes(wall_thickness);
+    nut_holes(wall_thickness, nut_margin = 0.01);
   }
 }
 
@@ -142,7 +143,7 @@ module spring_mounting(thickness, base_length=0, extra_length=2) {
               translate([0, -ext_r, 0]) polygon([
                 [0, 0],
                 [ext_r+extra_length, -base_length],
-                [ext_r+extra_length, ext_r*2+base_length],
+                [ext_r+extra_length, ext_r*2+0],
                 [0, ext_r*2]
                 ]);
             }

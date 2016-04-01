@@ -1,8 +1,9 @@
-include <modules.scad>
+include <settings.scad>
+use <modules.scad>
 use <utils.scad>
 
-optoforce_plate(2, "cone");
-/*foot_end();*/
+/*optoforce_plate(2, "cone");*/
+foot_end();
 
 /*rotate([0, 180, -90])
   optoforce();*/
@@ -12,18 +13,21 @@ optoforce_plate(2, "cone");
 //////////
 
 module foot_end() {
-  wall_thickness = 4;
-  base_thickness = 2;
   optoforce_interface="cone";
 
-  pipe_holders();
+  pipe_holders(wall_thickness);
 
-  translate([0, 8+5, 5])
+  translate([0, 8+5, 5+4])
     rotate([90, 90, 90])
       spring_mounting();
 
   if (optoforce_interface != "none")
     optoforce_plate(base_thickness, optoforce_interface);
+
+  translate([10, -8, 12])
+    rotate([0, 25, 180])
+      mirror([0, 0, 1])
+        cable_holder();
 }
 
 // The base of this the foot_end part where the pipes go and on which are added
@@ -42,10 +46,8 @@ module pipe_holders(wall_thickness = 4, base_thickness = 2) {
 
       // Structure joining the cylinders together
       difference() {
-        rotate([90, 0, 0])
-          linear_extrude(height=16, center=true)
-            polygon([[15, 0], [15, 18], [5, 10], [-5, 10], [-15, 18],
-                     [-15, 0]]);
+        translate([-15, -8, 0])
+          cube([30, 16, 18]);
 
         // Make the linkage between the two cylinders hollow
         translate([-16, -(8-wall_thickness), base_thickness])
@@ -120,15 +122,16 @@ module optoforce_plate(height, extra="none") {
 // @param open_hole whether the pipe holders should be digged open on the low end
 module cylinders_digging(open_hole=false) {
   for(x_offset=[-15, 15]) {
-    // holes in the pipes
+    // Opening the bottom of the part
     if (open_hole) {
     translate([x_offset, 0, -1])
       cylinder(h=20, r=4);
     }
+    // Holes for the pipes
     translate([x_offset, 0, 2])
       cylinder(h=20, r=6);
 
-    // holes to fix the pipes
+    // Holes to fix the pipes
     translate([x_offset, -9, 14])
       rotate([-90, 0, 0])
         cylinder(h=18, r=1);

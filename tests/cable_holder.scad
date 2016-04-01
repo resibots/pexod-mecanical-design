@@ -1,4 +1,5 @@
-include <../modules.scad>
+include <../settings.scad>
+use <../modules.scad>
 use <../utils.scad>
 
 mirror=1;
