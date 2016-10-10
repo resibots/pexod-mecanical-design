@@ -41,7 +41,7 @@ module dynamixel_frame(branch_thickness, length, margin = 0) {
 }
 
 // Create a model of an optoforce sensor, including a part of its cable
-module optoforce() {
+module optoforce(length_cable = 39) {
   difference() {
     union() {
       // Base
@@ -61,7 +61,7 @@ module optoforce() {
       color([0.2, 0.2, 0.2])
         translate([0, 0, 2.35])
           rotate([-90, 0, 0])
-            cylinder(h=50, d=2.7);
+            cylinder(h=11+length_cable, d=2.7);
     }
 
     // Holes
